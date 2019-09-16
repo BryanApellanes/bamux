@@ -30,6 +30,7 @@ namespace Bam.Net.Application
             TryWritePid(true);
             IsolateMethodCalls = false;
 			Type type = typeof(Program);
+            AddValidArgument("apps", "Only serve the apps specified; a comma or semi-colon separated list");
             AddValidArgument("content", false, false, "The path to the content root directory");
             AddValidArgument("verbose", true, false, "Log 200 and 404 responses");
             AddValidArgument("ProcessMode", false, false, "Specify the process mode overriding what is found in the config file."); // this setting is automatically checked by ProcessMode.Current, adding the argument here as a reminder
@@ -116,7 +117,7 @@ namespace Bam.Net.Application
             StringBuilder configurationMessage = new StringBuilder();
             configurationMessage.AppendLine();
             configurationMessage.AppendLine(new string('*', 40));
-            foreach (AppConf appConfig in conf.AppConfigs)
+            foreach (AppConf appConfig in conf.AppsToServe)
             {
                 configurationMessage.AppendLine(appConfig.Name);
                 foreach (HostPrefix hostPrefix in appConfig.Bindings)

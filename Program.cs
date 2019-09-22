@@ -36,7 +36,11 @@ namespace Bam.Net.Application
             AddValidArgument("ProcessMode", false, false, "Specify the process mode overriding what is found in the config file."); // this setting is automatically checked by ProcessMode.Current, adding the argument here as a reminder
 			AddSwitches(type);
 			DefaultMethod = type.GetMethod(nameof(Interactive));
-            Initialize(args);
+            Initialize(args, (a) =>
+            {
+                OutLineFormat("Error parsing arguments: {0}", ConsoleColor.Red, a.Message);
+                Environment.Exit(1);
+            });
 
             if (Arguments.Length > 0)
 			{

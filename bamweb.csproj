@@ -51,10 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\_lib\bam.net.core\bam.net.core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="**\**" />
     <Compile Remove="tests\**" />
     <Compile Include="Program.cs" />
@@ -63,5 +59,9 @@
   <ItemGroup>
     <EmbeddedResource Remove="**\**" />
     <EmbeddedResource Remove="tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\_lib\bam.net.core\bam.net.core.csproj" />
   </ItemGroup>
 </Project>

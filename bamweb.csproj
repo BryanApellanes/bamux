@@ -24,29 +24,36 @@
 
   <ItemGroup>
     <_UnmanagedRegistrationCache Remove="obj\bamweb.csproj.UnmanagedRegistration.cache" />
+    <_UnmanagedRegistrationCache Remove="obj\bamweb.csproj.UnmanagedRegistration.cache" />
   </ItemGroup>
 
   <ItemGroup>
+    <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.2\bamweb.csproj.ResolveComReference.cache" />
     <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.2\bamweb.csproj.ResolveComReference.cache" />
   </ItemGroup>
 
   <ItemGroup>
     <IntermediateAssembly Remove="obj\Debug\netcoreapp2.2\bamweb.dll" />
+    <IntermediateAssembly Remove="obj\Debug\netcoreapp2.2\bamweb.dll" />
   </ItemGroup>
 
   <ItemGroup>
+    <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.2\bamweb.pdb" />
     <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.2\bamweb.pdb" />
   </ItemGroup>
 
   <ItemGroup>
     <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.2\bamweb.dll" />
+    <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.2\bamweb.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <ApplicationManifest Remove="obj\Debug\netcoreapp2.2\bamweb.dll.manifest" />
+    <ApplicationManifest Remove="obj\Debug\netcoreapp2.2\bamweb.dll.manifest" />
   </ItemGroup>
 
   <ItemGroup>
+    <DeployManifest Remove="obj\Debug\netcoreapp2.2\bamweb.application" />
     <DeployManifest Remove="obj\Debug\netcoreapp2.2\bamweb.application" />
   </ItemGroup>
 
@@ -63,5 +70,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\_lib\bam.net.core\bam.net.core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClsidMap Remove="obj\Debug\netcoreapp2.2\bamweb.clsidmap" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <RegFreeComManifest Remove="obj\Debug\netcoreapp2.2\bamweb.X.manifest" />
   </ItemGroup>
 </Project>

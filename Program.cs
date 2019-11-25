@@ -53,7 +53,7 @@ namespace Bam.Net.Application
         }
         
         static BamServer _server;
-        static object _serverLock = new object();
+        static readonly object _serverLock = new object();
         public static BamServer Server
         {
             get

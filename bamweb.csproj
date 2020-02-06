@@ -62,6 +62,7 @@
     <Compile Remove="**\**" />
     <Compile Remove="tests\**" />
     <Compile Include="Program.cs" />
+    <Compile Include="SemanticAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,6 +15,7 @@ using System.IO;
 using Bam.Net.Yaml;
 using Bam.Net.Testing;
 using System.Reflection;
+using System.Threading.Tasks;
 using Bam.Net.UserAccounts;
 using Bam.Net.Data;
 using Bam.Net.ServiceProxy;
@@ -65,13 +66,11 @@ namespace Bam.Net.Application
         [ConsoleAction("S", "Start Bamweb server")]
         public static void StartServer()
         {
-            ConsoleLogger logger = new ConsoleLogger() { AddDetails = false };
+            ConsoleLogger logger = InitLogger();
             Server.Subscribe(logger);
-            Log.Default = logger;
             ProcessArguments();
-
             Server.Start();
-            LogConfig(logger);
+            LogConfig(logger); 
             Pause("BamWeb server started");
         }
 
@@ -89,29 +88,50 @@ namespace Bam.Net.Application
             Server.Stop();
             _server = null; // force reinitialization
             Server.Start();
-			Pause("BamWeb server re-started");
+            LogConfig(Log.Default as ConsoleLogger);
+            Pause("BamWeb server re-started");
         }
 
         public static void LogResponses()
         {
             Server.Responded += (s, res, req) =>
             {
-                StringBuilder messageFormat = new StringBuilder();
-                messageFormat.AppendLine("Responded: ClientIp={0}, Path={1}");
-                messageFormat.AppendLine("***");
-                messageFormat.AppendLine("{2}");
-                messageFormat.AppendLine("***");
-                Logger.Info(messageFormat.ToString(), req?.GetClientIp() ?? "[null]", req?.Url?.ToString() ?? "[null]", req?.PropertiesToString());
+                Task.Run(() =>
+                {
+                    StringBuilder messageFormat = new StringBuilder();
+                    messageFormat.AppendLine("Responded: RequestId={0}, ClientIp={1}, Path={2}");
+                    messageFormat.AppendLine("***");
+                    messageFormat.AppendLine("{3}");
+                    messageFormat.AppendLine("***");
+                    Logger.Info(messageFormat.ToString(), req?.GetRequestId(), req?.GetClientIp() ?? "[null]", req?.Url?.ToString() ?? "[null]", req?.PropertiesToString());
+                });
             };
 
             Server.NotResponded += (s, req) =>
             {
-                StringBuilder messageFormat = new StringBuilder();
-                messageFormat.AppendLine("DID NOT RESPOND: ClientIp={0}, Path={1}");
-                messageFormat.AppendLine("***");
-                messageFormat.AppendLine("{2}");
-                messageFormat.AppendLine("***");
-                Logger.Warning(messageFormat.ToString(), req?.GetClientIp() ?? "[null]", req?.Url?.ToString() ?? "[null]", req?.PropertiesToString());
+                Task.Run(() =>
+                {
+                    StringBuilder messageFormat = new StringBuilder();
+                    messageFormat.AppendLine("DID NOT RESPOND: RequestId={0}, ClientIp={1}, Path={2}");
+                    messageFormat.AppendLine("***");
+                    messageFormat.AppendLine("{3}");
+                    messageFormat.AppendLine("***");
+                    Logger.Warning(messageFormat.ToString(), req?.GetRequestId(), req?.GetClientIp() ?? "[null]", req?.Url?.ToString() ?? "[null]", req?.PropertiesToString());
+                });
+            };
+            
+            Server.ServiceProxyResponder.Responded += (responder, context) =>
+            {
+                Task.Run(() =>
+                {
+                    IRequest req = context.Request;
+                    StringBuilder messageFormat = new StringBuilder();
+                    messageFormat.Append("ServiceProxy Responded: RequestId={0}, ClientIp={1}, Path={2}");
+                    messageFormat.AppendLine("***");
+                    messageFormat.AppendLine("{3}");
+                    messageFormat.AppendLine("***");
+                    Logger.Info(messageFormat.ToString(), req?.GetRequestId(), req?.GetClientIp() ?? "[null]", req?.Url.ToString() ?? "[null]", req?.PropertiesToString());
+                });
             };
         }
         

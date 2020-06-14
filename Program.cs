@@ -24,7 +24,7 @@ using Bam.Net.Server;
 namespace Bam.Net.Application
 {
     [Serializable]
-    class Program : CommandLineTestInterface
+    class Program : CommandLineTool
     {
         static void Main(string[] args)
         {

@@ -24,7 +24,7 @@ using Bam.Net.Server;
 namespace Bam.Net.Application
 {
     [Serializable]
-    class Program : CommandLineTool
+    class Program : DeployableCommandLineTool
     {
         static void Main(string[] args)
         {

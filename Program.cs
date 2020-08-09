@@ -39,7 +39,7 @@ namespace Bam.Net.Application
 			DefaultMethod = type.GetMethod(nameof(Interactive));
             Initialize(args, (a) =>
             {
-                OutLineFormat("Error parsing arguments: {0}", ConsoleColor.Red, a.Message);
+                Message.PrintLine("Error parsing arguments: {0}", ConsoleColor.Red, a.Message);
                 Environment.Exit(1);
             });
 
@@ -154,7 +154,7 @@ namespace Bam.Net.Application
 
             configurationMessage.AppendLine(new string('*', 40));
             logger.AddEntry(configurationMessage.ToString());
-            OutLineFormat("Server configured for Process Modes: {0}", ConsoleColor.DarkYellow, string.Join(',', conf.ProcessModes));
+            Message.PrintLine("Server configured for Process Modes: {0}", ConsoleColor.DarkYellow, string.Join(',', conf.ProcessModes));
             PrintProcessMode();
         }
 
@@ -175,7 +175,7 @@ namespace Bam.Net.Application
                     break;
             }
 
-            OutLineFormat("Current ProcessMode is {0}", color, processMode.ToString());
+            Message.PrintLine("Current ProcessMode is {0}", color, processMode.ToString());
             Thread.Sleep(30);
         }
 

@@ -11,10 +11,10 @@
     <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>\opt\bam\build\bamweb\debug\</OutputPath>
+    <OutputPath>\opt\bam\build\debug\bamweb\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>\opt\bam\build\bamweb\release</OutputPath>
+    <OutputPath>\opt\bam\build\release\bamweb\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Update=".dockerignore">

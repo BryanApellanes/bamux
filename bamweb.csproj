@@ -3,6 +3,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Bam.Net.Application</RootNamespace>
+    <PackageId>bamweb</PackageId>
+    <Version>1.0.6</Version>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <NuspecFile>bamweb.nuspec</NuspecFile>

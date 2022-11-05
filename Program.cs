@@ -94,7 +94,7 @@ namespace Bam.Net.Application
 
         public static void LogResponses()
         {
-            Server.Responded += (s, res, req) =>
+            Server.ResponseFlushed += (s, res, req) =>
             {
                 Task.Run(() =>
                 {
@@ -144,7 +144,7 @@ namespace Bam.Net.Application
             foreach (AppConf appConfig in conf.AppsToServe)
             {
                 configurationMessage.AppendLine(appConfig.Name);
-                foreach (HostPrefix hostPrefix in appConfig.Bindings)
+                foreach (HostBinding hostPrefix in appConfig.Bindings)
                 {
                     configurationMessage.AppendFormat("\t{0}\r\n", hostPrefix.ToString());
                 }

@@ -7,13 +7,15 @@
     <Version>1.0.6</Version>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <NuspecFile>bamweb.nuspec</NuspecFile>
-    <IntermediatePackDir>/opt/bam/build/$(Configuration)/$(MSBuildThisFileName)/</IntermediatePackDir>
+    <NuspecFile>bamux.nuspec</NuspecFile>
+    <IntermediatePackDir Condition=" '$(OS)' == 'Windows_NT' ">$(HOMEDRIVE)$(HOMEPATH)/.bam/build/pack/$(Configuration)/$(MSBuildThisFileName)/</IntermediatePackDir>
+    <IntermediatePackDir Condition=" '$(OS)' == 'UNIX' ">$(HOME)/.bam/build/pack/$(Configuration)/$(MSBuildThisFileName)/</IntermediatePackDir>
     <PublishDir>$(IntermediatePackDir)$(TargetFramework)/</PublishDir>
     <NuspecProperties>publishDir=$([MSBuild]::NormalizeDirectory($(IntermediatePackDir)))</NuspecProperties>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputPath>\opt\bam\build\$(Configuration)\$(MSBuildThisFileName)\</OutputPath>
+    <OutputPath Condition=" '$(OS)' == 'Windows_NT' ">$(HOMEDRIVE)$(HOMEPATH)\.bam\build\$(Configuration)\$(MSBuildThisFileName)\</OutputPath>
+    <OutputPath Condition=" '$(OS)' == 'UNIX' ">$(HOME)\.bam\build\$(Configuration)\$(MSBuildThisFileName)\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Update=".dockerignore">
@@ -68,7 +70,7 @@
     <EmbeddedResource Remove="tests\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\_lib\bam.net.core\bam.net.core.csproj" />
+    <ProjectReference Include="submodules\bam.core\bam.core\bam.core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ClsidMap Remove="obj\Debug\netcoreapp2.2\bamweb.clsidmap" />

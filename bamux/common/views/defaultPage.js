@@ -1,0 +1,1 @@
+(function(){dust.register("defaultPage",body_0);function body_0(chk,ctx){return chk.write("<!DOCTYPE html><html xmlns=\"http://www.w3.org/1999/xhtml\"><head>    <title>").reference(ctx.get("title"),ctx,"h").write("</title></head><body>    <div id=\"pageContent\">        <h2>").reference(ctx.get("title"),ctx,"h").write("</h2>            </div></body></html>");}return body_0;})();

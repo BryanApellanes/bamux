@@ -1,0 +1,22 @@
+[
+  {
+    "FilePath": "c:\\bamcontent\\common\\daoref.db.js",
+    "Sha1": "c4b1172949676a132089470db61815e510c1c31d"
+  },
+  {
+    "FilePath": "c:\\bamws\\common\\daoref.db.js",
+    "Sha1": "c4b1172949676a132089470db61815e510c1c31d"
+  },
+  {
+    "FilePath": "c:\\bam\\content\\common\\daoref.db.js",
+    "Sha1": "c4b1172949676a132089470db61815e510c1c31d"
+  },
+  {
+    "FilePath": "/opt/bam/content/common/daoref.db.js",
+    "Sha1": "b7479c4fb5ba6f4d040b5dffd2b52004bb4ccc3f"
+  },
+  {
+    "FilePath": "/users/bryan/.bam/content/common/daoref.db.js",
+    "Sha1": "b7479c4fb5ba6f4d040b5dffd2b52004bb4ccc3f"
+  }
+]

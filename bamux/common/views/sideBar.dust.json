@@ -1,0 +1,7 @@
+{
+  "SourceFilePath": "C:\\bam\\content\\common\\views\\sideBar.dust",
+  "Name": "sideBar",
+  "Source": "\r\n<div class=\"well affix sidebar-nav\" id=\"{id}\">\r\n  {#sections}\r\n  <ul class=\"nav nav-list\" id=\"{id}\">      \r\n      <li class=\"nav-header\">{title}</li>\r\n      {#links}\r\n      <li><a href=\"{href}\">{text}</a></li>\r\n      {/links}                   \r\n  </ul>\r\n  {/sections}\r\n</div>",
+  "SourceHash": "3f2a7d0fedc363d5aacf9972b2b62daeed07305a",
+  "Compiled": "(function(){dust.register(\"sideBar\",body_0);function body_0(chk,ctx){return chk.write(\"<div class=\\\\\"well affix sidebar-nav\\\\\" id=\\\\\"\").reference(ctx.get(\"id\"),ctx,\"h\").write(\"\\\\\">  \").section(ctx.get(\"sections\"),ctx,{\"block\":body_1},null).write(\"</div>\");}function body_1(chk,ctx){return chk.write(\"  <ul class=\\\\\"nav nav-list\\\\\" id=\\\\\"\").reference(ctx.get(\"id\"),ctx,\"h\").write(\"\\\\\">            <li class=\\\\\"nav-header\\\\\">\").reference(ctx.get(\"title\"),ctx,\"h\").write(\"</li>      \").section(ctx.get(\"links\"),ctx,{\"block\":body_2},null).write(\"                     </ul>  \");}function body_2(chk,ctx){return chk.write(\"      <li><a href=\\\\\"\").reference(ctx.get(\"href\"),ctx,\"h\").write(\"\\\\\">\").reference(ctx.get(\"text\"),ctx,\"h\").write(\"</a></li>      \");}return body_0;})();"
+}

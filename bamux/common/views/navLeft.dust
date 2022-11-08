@@ -1,0 +1,7 @@
+<ul class="nav navbar-nav">
+{#pages}
+  <li id="{id}">
+    <a href="#">{title}</a>
+  </li>
+{/pages}
+</ul>

@@ -70,13 +70,13 @@
     <EmbeddedResource Remove="tests\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="submodules\bam.core\bam.core\bam.core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <ClsidMap Remove="obj\Debug\netcoreapp2.2\bamweb.clsidmap" />
   </ItemGroup>
   <ItemGroup>
     <RegFreeComManifest Remove="obj\Debug\netcoreapp2.2\bamweb.X.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\submodules\bam.core\bam.core\bam.core.csproj" />
   </ItemGroup>
   <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
     <ItemGroup>

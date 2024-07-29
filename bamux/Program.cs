@@ -9,7 +9,7 @@ namespace Bam.Application
     {
         static void Main(string[] args)
         {
-            BamConsoleContext.Main(args);
+            BamConsoleContext.StaticMain(args);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>Bam.Net.Application</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>bamweb</PackageId>
     <Version>1.0.6</Version>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -24,8 +25,8 @@
     <None Update="test.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Remove="**\**" />
-    <None Remove="tests\**" />
+    <None Remove="common\**" />
+    <Content Remove="common\**" />
   </ItemGroup>
   <ItemGroup>
     <_UnmanagedRegistrationCache Remove="obj\bamweb.csproj.UnmanagedRegistration.cache" />
@@ -56,14 +57,15 @@
     <DeployManifest Remove="obj\Debug\netcoreapp2.2\bamweb.application" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="**\**" />
+    <!-- common/ is bamux's own private nested legacy submodule snapshot (Bam.Net.* era, not built by
+         bamtk.sln) - out of scope for this migration. Program_bak.cs is an inert historical backup. -->
     <Compile Remove="tests\**" />
-    <Compile Include="Program.cs" />
-    <Compile Include="SemanticAssemblyInfo.cs" />
+    <Compile Remove="common\**" />
+    <Compile Remove="Program_bak.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="**\**" />
     <EmbeddedResource Remove="tests\**" />
+    <EmbeddedResource Remove="common\**" />
   </ItemGroup>
   <ItemGroup>
     <ClsidMap Remove="obj\Debug\netcoreapp2.2\bamweb.clsidmap" />
@@ -73,7 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(BamFrameworkRoot)bam.base\bam.base\bam.base.csproj" />
-    <ProjectReference Include="$(BamFrameworkRoot)bam.console\bam.console\bam.console.csproj" />
+    <ProjectReference Include="$(BamFrameworkRoot)bam.presentation\bam.presentation\bam.presentation.csproj" />
+    <ProjectReference Include="$(BamFrameworkRoot)bamid\bamid.client\bamid.client.csproj" />
   </ItemGroup>
   <Target Name="PublishAll" BeforeTargets="GenerateNuspec">
     <ItemGroup>

@@ -1,35 +1,40 @@
 # bamux
 
-The Bam Toolkit's console UX host — a thin executable that boots the framework's menu-driven console (`bam.console`) as a standalone process.
+An ASP.NET Core UX host for the Bam Toolkit — serves the registration UI and its own direct identity API routes, talking to `bamid` over TCP.
 
 ## Overview
 
-`bamux` is a minimal .NET console application. Its entire compiled surface is a single `Program.Main`, which delegates straight to `BamConsoleContext.StaticMain(args)` in `bam.console`:
+`bamux` was a dormant console shell (`BamConsoleContext.StaticMain`) until it was stood up as a real web host. It now builds a minimal `WebApplication` (`Microsoft.NET.Sdk.Web`) that serves `IndexPage`/`RegisterPage`/`RegisterResultPage` (moved here from `bamsvc`) and exposes its own `/api/register` and `/api/profile/{handle}` — the routes the registration UI's same-origin `fetch()` calls.
 
-```csharp
-namespace Bam.Application
-{
-    class Program
-    {
-        static void Main(string[] args) => BamConsoleContext.StaticMain(args);
-    }
-}
-```
+Those routes are handled by `IdentityUxRoutes`, which delegates to `bamid`'s generated `RegistrationServiceClient` **directly over TCP** (port 24515 by default, derived from bamid's server name), bypassing `bamsvc` entirely — an explicit routing decision, not an oversight. `bamsvc` has an identically-shaped `IdentityGatewayRoutes` class serving the same two routes independently, for callers that go through it instead.
 
-All actual behavior — resolving `[ConsoleCommand]`-decorated menus, dispatching arguments — lives in `bam.console` and `bam.base`; `bamux` exists to give that console experience its own launchable/packagable entry point (referenced in the bamtk repository structure as the "UX server").
+`Program_bak.cs` (excluded from compilation) is the pre-rewrite legacy entry point — 199 lines written entirely against the old `Bam.Net.*` namespaces (`Bam.Net.CommandLine`, `Bam.Net.Incubation`, `Bam.Net.ServiceProxy`, `Bam.Net.Server`), showing what `bamux` used to be: a `DeployableCommandLineTool`-based `BamServer` host with start/stop/restart lifecycle management. Kept only as historical reference.
 
-The project also carries `Program_bak.cs` (199 lines, excluded from compilation) — the pre-simplification entry point, written entirely against the legacy `Bam.Net.*` namespaces (`Bam.Net.CommandLine`, `Bam.Net.Incubation`, `Bam.Net.ServiceProxy`, `Bam.Net.Server`). It shows what `bamux` used to be: a `DeployableCommandLineTool`-based `BamServer` host with `--apps`/`--content`/`--verbose`/`--ProcessMode` arguments, start/stop/restart lifecycle management, and HTTP response/service-proxy-call logging. None of that is reachable from the current `Program.cs` — it's kept only as historical reference for what a fuller `bamux` host once did.
+The repository also carries its own private nested framework snapshot under `common/` (~30 submodules plus legacy `BamCommon`, same duplicate-checkout pattern as `bamdb`) — explicitly excluded from the build now that the SDK's default file globbing would otherwise sweep it in.
 
-The `bamux` repository also carries its own nested copy of ~30 framework submodules (`submodules/`) plus a legacy `common` submodule (`BamCommon`), mirroring the pattern used by `bamdb`: a top-level checkout built by `bamtk.sln`, and a private standalone snapshot for building `bamux.sln` in isolation. The nested copy still points at the legacy `Bam.Core`/`Bam.Net.Shared` chain and is not part of the current `Bam.*` migration.
+## Key Classes
 
-## Known Gaps / Not Yet Implemented
-
-- **Stale project metadata:** `bamux.csproj` sets `<RootNamespace>Bam.Net.Application</RootNamespace>` (the legacy namespace) even though the actual code inside is already migrated to `Bam.Application`. The `PackageId` (`bamweb`) and `bamux.nuspec` (`id=bamweb`, `description=bamweb`) likewise still carry the project's old pre-rename identity. These should be updated to match the `bamux` naming used everywhere else.
-- The repository contains a large tree of generated DAO artifacts under `bamux/common/common_dao_tmp_snpd/` that look like leftover code-generation output rather than checked-in source.
-- `bamux/README.md` (i.e. the nested *project-folder* README, not this repo-root one) contains an older, more detailed writeup of this project's history — it never renders anywhere (GitHub only shows the repo-root README) and duplicates/predates this one. Left in place rather than removed, since deleting a pre-existing file wasn't part of this documentation pass.
+| Class | Description |
+|---|---|
+| `Program` (top-level statements) | Builds the `bamid`-backed `RegistrationServiceClient`, maps pages and `IdentityUxRoutes`, runs the web host (default port 8082). |
+| `IdentityUxRoutes` | Maps `/api/register` and `/api/profile/{handle}` onto `IRegistrationService` calls against `bamid`, direct from the browser — not a proxy through `bamsvc`. |
+| `IndexPage` / `RegisterPage` / `RegisterResultPage` | HTML pages, moved here from `bamsvc`. |
+| `Program_bak` | Legacy, uncompiled: the original `BamServer`-hosting entry point. |
 
 ## Dependencies
 
-**Project References:** `bam.base`, `bam.console`.
+**Project References:** `bam.base`, `bam.presentation`, `bamid.client` (private repo — the generated client for `bamid`, the standalone identity/user-management host).
 
-**Target Framework:** net10.0 (Exe), packaged via `bamux.nuspec`.
+**Target Framework:** net10.0 (`Microsoft.NET.Sdk.Web`), packaged via `bamux.nuspec`.
+
+## Running Tests
+
+```bash
+dotnet run --project bamux.tests/bamux.tests.csproj -- --ut
+```
+
+## Known Gaps / Not Yet Implemented
+
+- **Stale package identity:** `bamux.csproj` still sets `PackageId` to `bamweb` (its pre-rename identity), and `bamux.nuspec` likewise still has `id=bamweb`/`description=bamweb`. (The `RootNamespace` override that used to say `Bam.Net.Application` has since been removed.)
+- The repository contains a large tree of generated DAO artifacts under `bamux/common/common_dao_tmp_snpd/` that look like leftover code-generation output rather than checked-in source.
+- `bamux/README.md` (the nested *project-folder* README, not this repo-root one) contains an older, unrelated writeup — it never renders anywhere (GitHub only shows the repo-root README) and is now further out of date. Left in place rather than removed, since deleting a pre-existing file wasn't part of this documentation pass.

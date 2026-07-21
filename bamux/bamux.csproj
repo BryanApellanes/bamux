@@ -84,4 +84,7 @@
       <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" Properties="TargetFramework=%(_TargetFramework.Identity)" />
     </ItemGroup>
   </Target>
+  <Target Name="EnsureIntermediatePackDir" BeforeTargets="GenerateNuspec">
+    <MakeDir Directories="$(PublishDir)" />
+  </Target>
 </Project>
